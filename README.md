@@ -46,7 +46,8 @@ conda create -n E2VID
 conda activate E2VID
 conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 conda install pandas
-conda install -c conda-forge opencv
+pip install opencv-python
+pip install --upgrade numpy
 ```
 
 ## Run
@@ -72,12 +73,11 @@ conda activate E2VID
 - Run reconstruction:
 
 ```bash
-python run_reconstruction.py \
-  -c pretrained/E2VID_lightweight.pth.tar \
-  -i data/dynamic_6dof.zip \
-  --auto_hdr \
-  --display \
-  --show_events
+python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dynamic_6dof.zip --auto_hdr --display --show_events
+
+python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dynamic_6dof.zip --auto_hdr --show_events --output_folder data/output --dataset_name reconstruction
+
+
 ```
 
 ## Parameters
