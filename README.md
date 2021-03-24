@@ -80,6 +80,9 @@ python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dyn
 
 ```
 
+## 数据集说明
+- 数据集是一个 zip，里面有一个文件，第一行是 宽和高。第二行开始是 4 元组的 event (t, x, y, p)，
+
 ## Parameters
 
 Below is a description of the most important parameters:

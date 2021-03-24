@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     # Read sensor size from the first first line of the event file
     path_to_events = args.input_file
-
+    # 读取第一行作为宽和高
     header = pd.read_csv(path_to_events, delim_whitespace=True, header=None, names=['width', 'height'],
                          dtype={'width': np.int, 'height': np.int},
                          nrows=1)
@@ -57,6 +57,7 @@ if __name__ == "__main__":
     """ Read chunks of events using Pandas """
 
     # Loop through the events and reconstruct images
+    # 设置每个窗口的 event 数量
     N = args.window_size
     if not args.fixed_duration:
         if N is None:
@@ -85,11 +86,15 @@ if __name__ == "__main__":
                                                          duration_ms=args.window_duration,
                                                          start_index=start_index)
     else:
+        # 根据固定的 event 数量 来迭代窗口
         event_window_iterator = FixedSizeEventReader(path_to_events, num_events=N, start_index=start_index)
 
     with Timer('Processing entire dataset'):
+        # 开始循环窗口
         for event_window in event_window_iterator:
 
+            # event_window 是一个四元组
+            # 获取这个窗口内最后一个 event 的时间
             last_timestamp = event_window[-1, 0]
 
             with Timer('Building event tensor'):
@@ -100,12 +105,14 @@ if __name__ == "__main__":
                                                         height=height)
                     event_tensor = torch.from_numpy(event_tensor)
                 else:
+                    # 把 event_window 拆分为多个 bin，event_tensor.shape = (num_bins, height, width)
                     event_tensor = events_to_voxel_grid_pytorch(event_window,
                                                                 num_bins=model.num_bins,
                                                                 width=width,
                                                                 height=height,
                                                                 device=device)
 
+            # 获取这个窗口内 event 的数量
             num_events_in_window = event_window.shape[0]
             reconstructor.update_reconstruction(event_tensor, start_index + num_events_in_window, last_timestamp)
 

@@ -14,6 +14,7 @@ class FixedSizeEventReader:
     def __init__(self, path_to_event_file, num_events=10000, start_index=0):
         print('Will use fixed size event windows with {} events'.format(num_events))
         print('Output frame rate: variable')
+        # chunksize 设置为 num_events，也就是每次读取一定数量的 events
         self.iterator = pd.read_csv(path_to_event_file, delim_whitespace=True, header=None,
                                     names=['t', 'x', 'y', 'pol'],
                                     dtype={'t': np.float64, 'x': np.int16, 'y': np.int16, 'pol': np.int16},

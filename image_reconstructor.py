@@ -60,9 +60,12 @@ class ImageReconstructor:
             with CudaTimer('Reconstruction'):
 
                 with CudaTimer('NumPy (CPU) -> Tensor (GPU)'):
+                    # 增加一个维度：[1, num_bins, height, width]
                     events = event_tensor.unsqueeze(dim=0)
                     events = events.to(self.device)
 
+                # perform operations such as hot pixel removing, event tensor normalization,
+                # or flipping the event tensor.
                 events = self.event_preprocessor(events)
 
                 # Resize tensor to [1 x C x crop_size x crop_size] by applying zero padding
@@ -77,21 +80,26 @@ class ImageReconstructor:
                 # Reconstruct new intensity image for each channel (grayscale + RGBW if color reconstruction is enabled)
                 for channel in events_for_each_channel.keys():
                     with CudaTimer('Inference'):
+                        # 在这里输入模型，分别输入 event 的 voxel grid 和 last state
                         new_predicted_frame, states = self.model(events_for_each_channel[channel],
                                                                  self.last_states_for_each_channel[channel])
 
                     if self.no_recurrent:
                         self.last_states_for_each_channel[channel] = None
                     else:
+                        # 更新 last state
                         self.last_states_for_each_channel[channel] = states
 
                     # Output reconstructed image
                     crop = self.crop if channel == 'grayscale' else self.crop_halfres
 
                     # Unsharp mask (on GPU)
+                    # perform unsharp mask filtering on reconstructed images.
                     new_predicted_frame = self.unsharp_mask_filter(new_predicted_frame)
 
                     # Intensity rescaler (on GPU)
+                    # Utility class to rescale image intensities to the range [0, 1],
+                    # using (robust) min/max normalization.
                     new_predicted_frame = self.intensity_rescaler(new_predicted_frame)
 
                     with CudaTimer('Tensor (GPU) -> NumPy (CPU)'):
@@ -104,6 +112,8 @@ class ImageReconstructor:
                     out = reconstructions_for_each_channel['grayscale']
 
             # Post-processing, e.g bilateral filter (on CPU)
+            # 再进行一次filter
+            # perform some basic filtering on reconstructed images.
             out = self.image_filter(out)
 
             self.image_writer(out, event_tensor_id, stamp, events=events)

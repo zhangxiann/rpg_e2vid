@@ -21,6 +21,7 @@ def load_model(path_to_model):
     return model
 
 
+# 在这里设置使用哪块 GPU
 def get_device(use_gpu):
     if use_gpu and torch.cuda.is_available():
         device = torch.device('cuda:0')

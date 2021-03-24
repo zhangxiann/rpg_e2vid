@@ -507,26 +507,38 @@ def events_to_voxel_grid_pytorch(events, num_bins, width, height, device):
             # normalize the event timestamps so that they lie between 0 and num_bins
             last_stamp = events_torch[-1, 0]
             first_stamp = events_torch[0, 0]
+            # 获取这个 event window 的时间差
             deltaT = last_stamp - first_stamp
 
             if deltaT == 0:
                 deltaT = 1.0
 
+            # 先 normalize 到 [0,1]，然后乘以 num_bins-1，缩放到 [0, num_bins-1]
             events_torch[:, 0] = (num_bins - 1) * (events_torch[:, 0] - first_stamp) / deltaT
             ts = events_torch[:, 0]
             xs = events_torch[:, 1].long()
             ys = events_torch[:, 2].long()
             pols = events_torch[:, 3].float()
+            # 把 1 和 0，变为 1 和 -1
             pols[pols == 0] = -1  # polarity should be +1 / -1
 
+            # get the largest integer less than or equal to each element
+            # 取整数的下限，也就是把时间转换为 bin 的序号
             tis = torch.floor(ts)
             tis_long = tis.long()
+            #  得到每个 bin 内的相对时间
             dts = ts - tis
+            # todo 不懂
+            # 目前我的理解就是每个 窗口内的 event 相加
             vals_left = pols * (1.0 - dts.float())
             vals_right = pols * dts.float()
 
+            # 只有小于 num_bins 的，才是合法的
             valid_indices = tis < num_bins
+
             valid_indices &= tis >= 0
+            # tis_long 里只有 0, 1, 2, 3, 4
+            # tis_long[valid_indices] * width * height 是为了构建每个位置对应的窗口的位移增量。
             voxel_grid.index_add_(dim=0,
                                   index=xs[valid_indices] + ys[valid_indices]
                                   * width + tis_long[valid_indices] * width * height,
