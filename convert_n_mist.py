@@ -44,21 +44,21 @@ def convert_bin_2_txt(source_path, target_path):
 
 
 if __name__ == '__main__':
-    for digit in os.listdir(environment.source_n_mnist_path):
-        if not os.path.exists(os.path.join(environment.target_n_mnist_path, digit)):
-            os.makedirs(os.path.join(environment.target_n_mnist_path, digit))
+    for digit in os.listdir(environment.source_n_mnist_dir):
+        if not os.path.exists(os.path.join(environment.target_n_mnist_dir, digit)):
+            os.makedirs(os.path.join(environment.target_n_mnist_dir, digit))
 
     source_paths = []
     target_paths = []
 
-    for digit in os.listdir(environment.source_n_mnist_path):
-        for file_name in os.listdir(os.path.join(environment.source_n_mnist_path, digit)):
-            file_path = os.path.join(environment.source_n_mnist_path, digit, file_name)
+    for digit in os.listdir(environment.source_n_mnist_dir):
+        for file_name in os.listdir(os.path.join(environment.source_n_mnist_dir, digit)):
+            file_path = os.path.join(environment.source_n_mnist_dir, digit, file_name)
 
             source_paths.append(file_path)
-            target_paths.append(os.path.join(environment.target_n_mnist_path, digit, file_name.split('.')[0]+'.txt'))
+            target_paths.append(os.path.join(environment.target_n_mnist_dir, digit, file_name.split('.')[0]+'.txt'))
             # data = generate_2d_spikes(file_path)
-            # np.savetxt(os.path.join(target_n_mnist_path, digit, file_name.split('.')[0]+'.txt'), data, header='28 28', comments='', fmt='%d')
+            # np.savetxt(os.path.join(target_n_mnist_dir, digit, file_name.split('.')[0]+'.txt'), data, header='28 28', comments='', fmt='%d')
 
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
