@@ -44,9 +44,9 @@ def convert_bin_2_txt(source_path, target_path):
 
 
 if __name__ == '__main__':
-    for digit in os.listdir(source_n_mnist_path):
-        if not os.path.exists(os.path.join(target_n_mnist_path, digit)):
-            os.makedirs(os.path.join(target_n_mnist_path, digit))
+    for digit in os.listdir(environment.source_n_mnist_path):
+        if not os.path.exists(os.path.join(environment.target_n_mnist_path, digit)):
+            os.makedirs(os.path.join(environment.target_n_mnist_path, digit))
 
     source_paths = []
     target_paths = []
