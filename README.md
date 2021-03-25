@@ -75,7 +75,9 @@ conda activate E2VID
 ```bash
 python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dynamic_6dof.zip --auto_hdr --display --show_events
 
-python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dynamic_6dof.zip --auto_hdr --show_events --output_folder data/output --dataset_name reconstruction
+python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dynamic_6dof.zip --auto_hdr --show_events --output_folder data/output --dataset_name dynamic_6dof
+
+python run_n_mnist_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar --input_dir data/input/N-MNIST/txt/Test --auto_hdr --output_folder data/output --dataset_name N-MNIST
 
 
 ```
