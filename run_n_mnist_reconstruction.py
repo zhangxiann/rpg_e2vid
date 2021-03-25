@@ -49,7 +49,12 @@ if __name__ == "__main__":
 
     input_dir = args.input_dir
     for digit in os.listdir(input_dir):
+        index =0
         for file_name in os.listdir(os.path.join(input_dir, digit)):
+            # 每个数字生成 10 张就停止
+            index =index+1
+            if index >= 10:
+                break
             path_to_events = os.path.join(input_dir, digit, file_name)
             args.dataset_name = file_name.split('.')[0]
             args.output_folder  = os.path.join('./data/output/N-MNIST/Test', digit)
@@ -60,7 +65,6 @@ if __name__ == "__main__":
                                  nrows=1)
             width, height = header.values[0]
             print('Sensor size: {} x {}'.format(width, height))
-
 
 
             reconstructor = ImageReconstructor(model, height, width, model.num_bins, args)
