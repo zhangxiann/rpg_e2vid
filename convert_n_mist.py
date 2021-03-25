@@ -40,7 +40,7 @@ def generate_2d_spikes(filename):
 
 def convert_bin_2_txt(source_path, target_path):
     data = generate_2d_spikes(source_path)
-    np.savetxt(target_path, data, header='28 28', comments='', fmt='%d')
+    np.savetxt(target_path, data, header='34 34', comments='', fmt='%d')
 
 
 if __name__ == '__main__':

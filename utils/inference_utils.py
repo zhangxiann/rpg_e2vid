@@ -533,9 +533,9 @@ def events_to_voxel_grid_pytorch(events, num_bins, width, height, device):
             vals_left = pols * (1.0 - dts.float())
             vals_right = pols * dts.float()
 
-            # 只有小于 num_bins 的，才是合法的
+            # 只有小于 num_bins 的，才是合法的，这里是所有数据
             valid_indices = tis < num_bins
-
+            # 这里也是所有数据
             valid_indices &= tis >= 0
             # tis_long 里只有 0, 1, 2, 3, 4
             # tis_long[valid_indices] * width * height 是为了构建每个位置对应的窗口的位移增量。
