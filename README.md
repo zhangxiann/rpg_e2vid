@@ -81,6 +81,9 @@ python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/inp
 python run_n_mnist_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar --input_dir data/input/N-MNIST/txt/Test --auto_hdr
 
 
+python run_n_cars_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar --input_dir data/input/n_cars/txt --auto_hdr
+
+
 ```
 
 测试
