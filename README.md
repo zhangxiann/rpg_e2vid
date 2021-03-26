@@ -82,7 +82,6 @@ python run_reconstruction_on_cpu.py -c pretrained/E2VID_lightweight.pth.tar -i d
 python run_n_mnist_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar --input_dir data/input/N-MNIST/txt/Test --auto_hdr
 
 
-
 ```
 
 ## 数据集说明
