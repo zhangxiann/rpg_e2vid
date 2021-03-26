@@ -101,6 +101,7 @@ def convert_dat_2_txt(source_path, target_path):
 if __name__ == '__main__':
     for train_test in environment.n_cars_train_test:
         for class_type in os.listdir(os.path.join(environment.source_n_cars_dir, train_test)):
+
             if not os.path.exists(os.path.join(environment.target_n_cars_dir, train_test, class_type)):
                 os.makedirs(os.path.join(environment.target_n_cars_dir, train_test, class_type))
 
@@ -109,10 +110,15 @@ if __name__ == '__main__':
 
     for train_test in environment.n_cars_train_test:
         for class_type in os.listdir(os.path.join(environment.source_n_cars_dir, train_test)):
+            index = 0
             for file_name in os.listdir(os.path.join(environment.source_n_cars_dir, train_test, class_type)):
                 file_path = os.path.join(environment.source_n_cars_dir, train_test, class_type, file_name)
-
+                index = index + 1
+                # 每一类只保存 10 个
+                if index == 10:
+                    break
                 source_paths.append(file_path)
+                # print(os.path.join(environment.target_n_cars_dir, train_test, class_type, file_name.split('.')[0]+'.txt'))
                 target_paths.append(os.path.join(environment.target_n_cars_dir, train_test, class_type, file_name.split('.')[0]+'.txt'))
             # data = generate_2d_spikes(file_path)
             # np.savetxt(os.path.join(target_n_mnist_dir, digit, file_name.split('.')[0]+'.txt'), data, header='28 28', comments='', fmt='%d')

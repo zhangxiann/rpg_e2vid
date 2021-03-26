@@ -77,11 +77,17 @@ python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/dyn
 
 python run_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar -i data/input/dynamic_6dof.zip --auto_hdr --output_folder data/output --dataset_name dynamic_6dof
 
-python run_reconstruction_on_cpu.py -c pretrained/E2VID_lightweight.pth.tar -i data/input/N-MNIST/txt/Test/0/00004.txt --auto_hdr --show_events --output_folder data/output/N-MNIST/txt/Test/0/ --dataset_name 00004
 
 python run_n_mnist_reconstruction.py -c pretrained/E2VID_lightweight.pth.tar --input_dir data/input/N-MNIST/txt/Test --auto_hdr
 
 
+```
+
+测试
+```shell
+python run_reconstruction_on_cpu.py -c pretrained/E2VID_lightweight.pth.tar -i data/input/N-MNIST/txt/Test/0/00004.txt --auto_hdr --show_events --output_folder data/output/N-MNIST/txt/Test/0/ --dataset_name 00004
+
+python run_reconstruction_on_cpu.py -c pretrained/E2VID_lightweight.pth.tar -i data/input/n_cars/txt/n-cars_train/cars/obj_004407_td.txt --auto_hdr --show_events --output_folder data/output/n_cars/n-cars_train/cars/ --dataset_name obj_004407_td
 ```
 
 ## 数据集说明
